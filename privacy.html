@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy | AudioMax – Volume Booster Chrome Extension</title>
+  <meta name="description" content="Privacy policy for AudioMax — the Volume Booster & EQ Chrome extension. No tracking, no ads, no data collection. All processing happens locally in your browser." />
+  <style>
+    :root {
+      --bg: #f2fbfb;
+      --card: #ffffff;
+      --ink: #0d2626;
+      --muted: #3d6060;
+      --line: #c4e8e8;
+      --brand: #0abfbc;
+      --brand-2: #089a98;
+      --radius: 18px;
+      --shadow: 0 18px 40px rgba(10, 80, 80, 0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(860px 300px at -120px -60px, #b3f0ef 0%, transparent 65%),
+        radial-gradient(620px 300px at 110% 0%, #ffe2b8 0%, transparent 64%),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Poppins", "Space Grotesk", "Trebuchet MS", sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { width: min(940px, 92vw); margin: 40px auto 56px; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-2);
+      background: #ddf5f5;
+      border: 1px solid #9de5e3;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    .btn {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #fff;
+      font-family: inherit;
+      transition: background .15s;
+    }
+    .btn:hover { background: #e8f9f9; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 36px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .meta { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
+    h2 { margin: 28px 0 8px; font-size: 20px; letter-spacing: -0.01em; color: var(--ink); }
+    p { color: var(--muted); margin: 0 0 8px; font-size: 15px; line-height: 1.65; }
+    ul { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 8px; }
+    li { color: var(--muted); font-size: 15px; line-height: 1.6; }
+    a { color: var(--brand-2); }
+    code {
+      font-family: "Consolas", "Courier New", monospace;
+      background: #ddf5f5;
+      border: 1px solid #b3e8e7;
+      padding: 1px 5px;
+      border-radius: 6px;
+      color: #066665;
+      font-size: 0.92em;
+    }
+    @media (max-width: 620px) {
+      .card { padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top">
+      <span class="badge">Privacy Policy</span>
+      <a class="btn" href="./index.html">← Back to Home</a>
+    </div>
+
+    <section class="card">
+      <h1>AudioMax Privacy Policy</h1>
+      <p class="meta"><strong>Effective date:</strong> April 6, 2026</p>
+
+      <p>This privacy policy describes how AudioMax – Volume Booster handles data when you use the extension.</p>
+
+      <h2>1. What the extension does</h2>
+      <p>AudioMax amplifies audio in your Chrome browser using the Web Audio API. It attaches a gain node and a 3-band equalizer to any audio or video element on the active tab, allowing volume boost up to 600%, independent Bass/Mid/Treble EQ control, real-time dB monitoring, named preset storage, and per-site volume settings.</p>
+
+      <h2>2. Data handling model</h2>
+      <ul>
+        <li>All audio processing happens entirely within your browser using the Web Audio API — no audio data is captured or transmitted externally.</li>
+        <li>Volume, EQ settings, and named presets are saved to <code>chrome.storage.sync</code> so they sync across your Chrome devices. This data never leaves Chrome's own sync infrastructure.</li>
+        <li>Per-site settings are keyed by domain name and stored locally in Chrome's sync storage.</li>
+        <li>No personally identifiable information is collected, processed, or stored.</li>
+      </ul>
+
+      <h2>3. Data we do not collect or sell</h2>
+      <ul>
+        <li>We do not collect, store, or transmit any personal information.</li>
+        <li>We do not sell personal information.</li>
+        <li>We do not require account sign-in or registration of any kind.</li>
+        <li>We do not send any data to external servers or third-party services.</li>
+        <li>We do not use analytics, advertising SDKs, or any form of usage tracking.</li>
+        <li>We do not record, capture, or transmit audio from your browser.</li>
+      </ul>
+
+      <h2>4. Permissions and why they are needed</h2>
+      <ul>
+        <li><code>storage</code>: Save your volume level, EQ settings, named presets, and per-site configurations via <code>chrome.storage.sync</code>.</li>
+        <li><code>tabs</code>: Read the current tab's URL to apply per-site settings for the correct domain and to relay audio commands between the extension UI and the page's content script.</li>
+        <li><code>sidePanel</code>: Open and manage the advanced side panel interface for EQ, presets, and per-site controls.</li>
+        <li><code>&lt;all_urls&gt;</code>: Inject the content script that attaches the Web Audio API processing graph to audio/video elements on whichever website you visit. Required for the extension to function on any site.</li>
+      </ul>
+
+      <h2>5. User controls</h2>
+      <ul>
+        <li>Adjust or reset volume and EQ at any time from the popup or side panel.</li>
+        <li>Delete individual named presets or per-site entries from within the extension.</li>
+        <li>All saved data can be cleared by removing the extension or clearing extension data in Chrome settings.</li>
+      </ul>
+
+      <h2>6. Data retention and control</h2>
+      <p>Your preferences (volume, EQ, presets, per-site settings) persist in <code>chrome.storage.sync</code> until you delete them or uninstall the extension. No data is sent to or retained on any external server. Uninstalling AudioMax removes all extension-managed data from your device.</p>
+
+      <h2>7. Policy alignment</h2>
+      <p>This policy is intended to align with Chrome Web Store transparency and disclosure requirements. AudioMax does not engage in any data collection practices that require additional disclosure under GDPR, CCPA, or Chrome Web Store policies.</p>
+
+      <h2>8. Contact</h2>
+      <p>
+        Developer: Russel Sese<br />
+        Email: <a href="mailto:russel.sese@batchee.com">russel.sese@batchee.com</a><br />
+        LinkedIn: <a href="https://www.linkedin.com/in/russelsese/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/russelsese/</a>
+      </p>
+
+      <h2>9. Updates to this policy</h2>
+      <p>This page may be updated when extension behavior or compliance requirements change. The effective date above will be updated accordingly. Continued use of the extension after changes constitutes acceptance of the updated policy.</p>
+    </section>
+  </main>
+</body>
+</html>

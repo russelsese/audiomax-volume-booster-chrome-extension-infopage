@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AudioMax – Volume Booster & EQ Chrome Extension</title>
+  <meta name="description" content="Boost any website's volume up to 600%, control bass/mid/treble EQ, save presets & monitor live audio — works on YouTube, Netflix, Spotify & more. Free Chrome extension." />
+  <meta name="keywords" content="volume booster chrome extension, sound booster chrome, audio booster, bass booster chrome extension, volume amplifier chrome, chrome audio equalizer extension, per site volume control chrome, volume booster without distortion" />
+  <meta property="og:title" content="AudioMax – Volume Booster & EQ for Chrome" />
+  <meta property="og:description" content="Boost any website's volume up to 600%, 3-band EQ, real-time dB meter, named presets & per-site settings. Free Chrome extension." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./images/01-audiomax-popup.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AudioMax – Volume Booster",
+    "applicationCategory": "BrowserApplication",
+    "operatingSystem": "Chrome",
+    "offers": { "@type": "Offer", "price": "0" },
+    "description": "Boost any website's volume up to 600% with 3-band EQ, real-time dB meter, named presets, and per-site settings."
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #f2fbfb;
+      --ink: #0d2626;
+      --muted: #3d6060;
+      --card: #ffffff;
+      --line: #c4e8e8;
+      --brand: #0abfbc;
+      --brand-2: #089a98;
+      --radius: 18px;
+      --shadow: 0 18px 40px rgba(10,80,80,.10);
+      --shadow-lg: 0 28px 60px rgba(10,80,80,.16);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background:
+        radial-gradient(900px 320px at -140px -80px, #b3f0ef 0%, transparent 60%),
+        radial-gradient(680px 320px at 115% -5%, #ffe2b8 0%, transparent 60%),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Poppins", "Space Grotesk", "Trebuchet MS", sans-serif;
+      line-height: 1.5;
+    }
+
+    /* ── Layout ── */
+    .wrap { width: min(1100px, 92vw); margin: 0 auto; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(242,251,251,.82);
+      border-bottom: 1px solid rgba(196,232,232,.6);
+      padding: 12px 0;
+    }
+    .nav-inner {
+      width: min(1100px, 92vw);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-logo img { width: 28px; height: 28px; border-radius: 7px; }
+    .nav-links { display: flex; gap: 8px; }
+    .btn {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-family: inherit;
+      transition: filter .15s, transform .12s, box-shadow .15s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(145deg, var(--brand), var(--brand-2));
+      box-shadow: 0 8px 22px rgba(10,191,188,.30);
+    }
+    .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .btn-ghost { color: var(--ink); background: #fff; border-color: var(--line); }
+    .btn-ghost:hover { background: #e8f9f9; }
+
+    /* ── Hero ── */
+    .hero { padding: 80px 0 52px; }
+    .badge {
+      display: inline-block;
+      font-size: 11.5px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--brand-2);
+      background: #ddf5f5;
+      border: 1px solid #9de5e3;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(38px, 5.5vw, 68px);
+      line-height: 1.01;
+      letter-spacing: -.025em;
+      max-width: 16ch;
+      margin-bottom: 18px;
+    }
+    h1 span { color: var(--brand); }
+    .lead {
+      max-width: 60ch;
+      color: var(--muted);
+      font-size: clamp(16px, 2.2vw, 19px);
+      margin-bottom: 28px;
+    }
+    .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 999px;
+      background: #fff5ef;
+      color: #8b3a10;
+      border: 1px solid #ffd4bd;
+      padding: 5px 11px;
+    }
+
+    /* ── Hero screenshot ── */
+    .hero-img-wrap {
+      margin-top: 52px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(10,80,80,.08);
+      background: #0f1117;
+      line-height: 0;
+    }
+    .hero-img-wrap img { width: 100%; display: block; }
+
+    /* ── Section heading ── */
+    .section-label {
+      font-size: 11.5px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--brand-2);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: clamp(26px, 3.5vw, 40px);
+      letter-spacing: -.02em;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 58ch;
+      margin-bottom: 36px;
+    }
+
+    /* ── Features ── */
+    .features { padding: 72px 0; }
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 16px;
+    }
+    .feat-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .feat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #ddf5f5, #b3eeec);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .feat-icon svg { color: var(--brand-2); }
+    .feat-card h3 { font-size: 16px; letter-spacing: -.01em; margin: 0; }
+    .feat-card p { color: var(--muted); font-size: 14px; margin: 0; line-height: 1.55; }
+
+    /* ── Showcase rows ── */
+    .showcase { padding: 16px 0 72px; display: grid; gap: 24px; }
+    .showcase-row {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 320px;
+    }
+    .showcase-row.flip { direction: rtl; }
+    .showcase-row.flip > * { direction: ltr; }
+    .showcase-text {
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+    .showcase-text h2 { font-size: clamp(20px,2.4vw,28px); letter-spacing: -.015em; margin: 0; }
+    .showcase-text p { color: var(--muted); font-size: 15px; margin: 0; line-height: 1.6; }
+    .showcase-text ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+    .showcase-text ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .showcase-text ul li::before {
+      content: "✓";
+      color: var(--brand);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .showcase-img {
+      overflow: hidden;
+      background: #e0f7f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .showcase-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left top;
+      display: block;
+    }
+    .showcase-img.portrait img { object-position: center top; }
+
+    /* ── How it works ── */
+    .how { padding: 72px 0; background: rgba(255,255,255,.55); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .step { display: flex; flex-direction: column; gap: 10px; }
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, var(--brand), var(--brand-2));
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(10,191,188,.30);
+    }
+    .step h3 { font-size: 15px; margin: 0; }
+    .step p { color: var(--muted); font-size: 13.5px; margin: 0; line-height: 1.55; }
+
+    /* ── Works on ── */
+    .workson { padding: 64px 0; }
+    .site-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .site-chip {
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      padding: 7px 14px;
+      box-shadow: 0 4px 12px rgba(10,80,80,.07);
+    }
+
+    /* ── Privacy strip ── */
+    .privacy { padding: 64px 0; }
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 14px;
+      margin-top: 36px;
+    }
+    .privacy-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .privacy-no {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--brand-2);
+    }
+    .privacy-card p { color: var(--muted); font-size: 13.5px; margin: 0; }
+
+    /* ── FAQ ── */
+    .faq { padding: 64px 0; }
+    .faq-list { display: grid; gap: 12px; margin-top: 28px; }
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+    }
+    .faq-item h3 { font-size: 15px; margin: 0 0 6px; }
+    .faq-item p { color: var(--muted); font-size: 14px; margin: 0; line-height: 1.6; }
+
+    /* ── Footer ── */
+    footer {
+      margin: 0;
+      padding: 20px 0 52px;
+      border-top: 1px solid #c4e8e8;
+    }
+    .footer-inner {
+      width: min(1100px,92vw);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      padding-top: 20px;
+    }
+    .footer-inner a { color: var(--brand-2); text-decoration: none; font-weight: 600; }
+    .footer-inner a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .feat-grid { grid-template-columns: 1fr 1fr; }
+      .showcase-row { grid-template-columns: 1fr; }
+      .showcase-row.flip { direction: ltr; }
+      .showcase-img { min-height: 220px; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .privacy-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
+      .hero { padding-top: 44px; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .showcase-text { padding: 28px 22px; }
+      .steps { grid-template-columns: 1fr; }
+      .privacy-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links .btn-ghost { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <img src="./icons/icon128.png" alt="AudioMax icon" />
+        AudioMax
+      </a>
+      <div class="nav-links">
+        <a class="btn btn-ghost" href="./support.html">Support</a>
+        <a class="btn btn-ghost" href="./privacy.html">Privacy</a>
+        <a class="btn btn-primary" href="https://chromewebstore.google.com/search/AudioMax%20Volume%20Booster" target="_blank" rel="noopener noreferrer">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero wrap">
+    <span class="badge">Chrome Extension · Popup + Side Panel</span>
+    <h1>Boost any site's audio <span>up to 600%.</span></h1>
+    <p class="lead">AudioMax amplifies any audio in Chrome far beyond the default 100% limit — with a built-in 3-band EQ, real-time dB meter, named presets, and per-site settings. Zero distortion.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://chromewebstore.google.com/search/AudioMax%20Volume%20Booster" target="_blank" rel="noopener noreferrer">Add to Chrome — it's free</a>
+      <a class="btn btn-ghost" href="./releasenotes.html">Release Notes</a>
+    </div>
+    <div class="chips">
+      <span class="chip">600% Volume Boost</span>
+      <span class="chip">3-Band EQ</span>
+      <span class="chip">Real-Time dB Meter</span>
+      <span class="chip">Named Presets</span>
+      <span class="chip">Per-Site Settings</span>
+      <span class="chip">Anti-Clipping</span>
+    </div>
+    <div class="hero-img-wrap">
+      <img src="./images/06-audiomax-youtube.png" alt="AudioMax extension showing volume boost controls on a YouTube tab" loading="eager" />
+    </div>
+  </section>
+
+  <!-- Feature cards -->
+  <section class="features wrap">
+    <p class="section-label">Features</p>
+    <h2 class="section-title">More than a volume slider.</h2>
+    <p class="section-sub">AudioMax is the only volume booster with a full EQ, live dB monitoring, and named presets — built right into Chrome.</p>
+    <div class="feat-grid">
+
+      <article class="feat-card">
+        <div class="feat-icon">
+          <!-- Speaker/volume icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+        </div>
+        <h3>Volume Boost (0–600%)</h3>
+        <p>Amplify any audio far beyond Chrome's default 100% cap. Works on videos, music, podcasts, and voice calls on any website.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-icon">
+          <!-- Sliders / EQ icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
+            <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
+            <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>
+          </svg>
+        </div>
+        <h3>3-Band Equalizer</h3>
+        <p>Independently control Bass (250 Hz), Mid (1 kHz), and Treble (4 kHz) with ±12 dB per band. Built-in chips: Bass Boost, Vocal Clarity, Loudness, Podcast, Music, Flat.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-icon">
+          <!-- Activity / waveform icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3>Real-Time dB Meter</h3>
+        <p>Watch your audio levels live with a color-coded bar and dB readout updated 10 times per second. Know exactly what's happening with your audio.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-icon">
+          <!-- Bookmark / preset icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <h3>Named Presets</h3>
+        <p>Save your perfect volume and EQ configuration with a custom name. Load any preset instantly with one click — your settings, always ready.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-icon">
+          <!-- Globe / per-site icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h3>Per-Site Settings</h3>
+        <p>Set different volume and EQ levels for each website. AudioMax remembers your preferences per domain and applies them automatically.</p>
+      </article>
+
+      <article class="feat-card">
+        <div class="feat-icon">
+          <!-- Shield / anti-clipping icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3>Anti-Clipping Compressor</h3>
+        <p>Built-in DynamicsCompressor prevents crackling and distortion at high boost levels. Louder doesn't have to mean worse audio quality.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Showcase rows -->
+  <section class="showcase wrap">
+    <p class="section-label">See it in action</p>
+    <h2 class="section-title">Two UIs. One seamless experience.</h2>
+    <p class="section-sub">Quick volume control from the popup. Full EQ, presets, and site controls from the persistent side panel.</p>
+
+    <!-- Row 1: Popup + volume control -->
+    <div class="showcase-row">
+      <div class="showcase-text">
+        <h2>Instant control from the toolbar.</h2>
+        <p>Click the AudioMax icon for a lightweight popup with a volume slider and real-time dB readout. Perfect for quick adjustments without opening the full panel.</p>
+        <ul>
+          <li>Large, easy-to-use volume slider (0–600%)</li>
+          <li>Live dB meter updates as you drag</li>
+          <li>One-click access from any tab</li>
+        </ul>
+      </div>
+      <div class="showcase-img portrait">
+        <img src="./images/01-audiomax-popup.png" alt="AudioMax popup showing a volume slider boosted to 250% on a YouTube tab" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- Row 2: EQ (flipped) -->
+    <div class="showcase-row flip">
+      <div class="showcase-text">
+        <h2>Fine-tune bass, mid & treble.</h2>
+        <p>The side panel EQ gives you full control over your audio signature. Boost bass for music, cut mid for clearer dialogue, or use a preset chip to jump straight to the right sound.</p>
+        <ul>
+          <li>Bass (250 Hz), Mid (1 kHz), Treble (4 kHz) sliders</li>
+          <li>±12 dB range per band</li>
+          <li>6 instant preset chips: Bass Boost, Vocal Clarity, Loudness, Podcast, Music, Flat</li>
+        </ul>
+      </div>
+      <div class="showcase-img">
+        <img src="./images/03-audiomax-sidepanel-eq.png" alt="AudioMax side panel showing 3-band EQ with bass slider boosted and Bass Boost chip active" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- Row 3: Presets + sites -->
+    <div class="showcase-row">
+      <div class="showcase-text">
+        <h2>Save your setup. Different per site.</h2>
+        <p>Name and save any combination of volume and EQ as a preset. Plus, AudioMax applies different settings per domain automatically — no manual switching needed.</p>
+        <ul>
+          <li>Name, save, load, and delete custom presets</li>
+          <li>Per-site overrides stored per domain</li>
+          <li>Settings sync across all your Chrome devices via chrome.storage.sync</li>
+        </ul>
+      </div>
+      <div class="showcase-img">
+        <img src="./images/04-audiomax-sidepanel-presets.png" alt="AudioMax side panel showing saved named presets list" loading="lazy" />
+      </div>
+    </div>
+
+  </section>
+
+  <!-- How it works -->
+  <section class="how">
+    <div class="wrap">
+      <p class="section-label">How it works</p>
+      <h2 class="section-title">Up and running in seconds.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Install AudioMax</h3>
+          <p>Add it from the Chrome Web Store — free, no account or sign-in required.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Open any website</h3>
+          <p>Navigate to YouTube, Netflix, Spotify, or any site with audio or video.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Click the toolbar icon</h3>
+          <p>The popup opens instantly. Drag the slider to boost volume beyond 100%.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Open the side panel for more</h3>
+          <p>Access full EQ controls, save named presets, and set per-site preferences — all while you browse.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Works on -->
+  <section class="workson wrap">
+    <p class="section-label">Compatibility</p>
+    <h2 class="section-title">Works on every site.</h2>
+    <p class="section-sub">AudioMax processes audio at the browser level using the Web Audio API, so it works on virtually any site that plays audio or video.</p>
+    <div class="site-strip">
+      <span class="site-chip">YouTube</span>
+      <span class="site-chip">Netflix</span>
+      <span class="site-chip">Spotify</span>
+      <span class="site-chip">Twitch</span>
+      <span class="site-chip">Amazon Prime Video</span>
+      <span class="site-chip">Disney+</span>
+      <span class="site-chip">Zoom</span>
+      <span class="site-chip">Google Meet</span>
+      <span class="site-chip">Apple Music</span>
+      <span class="site-chip">SoundCloud</span>
+      <span class="site-chip">Podcasts</span>
+      <span class="site-chip">Any site with audio</span>
+    </div>
+  </section>
+
+  <!-- Privacy -->
+  <section class="privacy wrap">
+    <p class="section-label">Privacy</p>
+    <h2 class="section-title">Zero data collection. Full stop.</h2>
+    <p class="section-sub">All audio processing happens entirely in your browser using the Web Audio API. Nothing leaves your machine.</p>
+    <div class="privacy-grid">
+      <div class="privacy-card">
+        <div class="privacy-no">No tracking</div>
+        <p>No analytics, no telemetry, no usage data collected or transmitted anywhere.</p>
+      </div>
+      <div class="privacy-card">
+        <div class="privacy-no">No ads</div>
+        <p>AudioMax is completely free with no advertising or data selling of any kind.</p>
+      </div>
+      <div class="privacy-card">
+        <div class="privacy-no">Local only</div>
+        <p>Your volume and EQ preferences are saved locally via Chrome's sync storage — fully under your control.</p>
+      </div>
+      <div class="privacy-card">
+        <div class="privacy-no">No sign-in</div>
+        <p>Install and start boosting immediately. No account, no email, no setup required.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq wrap">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title">Common questions.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>Does it work on all websites?</h3>
+        <p>It works on the vast majority of websites including YouTube, Netflix, and Spotify. A small number of sites with non-standard audio implementations may not be fully supported.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Will boosting past 200% cause distortion?</h3>
+        <p>AudioMax includes a built-in DynamicsCompressor that significantly reduces distortion at high boost levels. At very high levels (400%+) some degradation is expected, but it's far less than other volume boosters.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does it affect other tabs?</h3>
+        <p>No. AudioMax processes audio per-tab. Your other open tabs are completely unaffected.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is it free?</h3>
+        <p>Yes — fully free with no premium tier, ads, or data selling. Ever.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does it work on Mac and Windows?</h3>
+        <p>Yes, AudioMax works on all desktop platforms where Chrome is supported — Windows, macOS, and Linux.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>Built by Russel Sese &mdash; <a href="mailto:russel.sese@batchee.com">russel.sese@batchee.com</a></div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="./support.html">Support</a>
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./releasenotes.html">Release Notes</a>
+        <a href="https://www.linkedin.com/in/russelsese/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

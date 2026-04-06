@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Release Notes | AudioMax – Volume Booster Chrome Extension</title>
+  <meta name="description" content="Release notes and changelog for AudioMax — the Volume Booster & EQ Chrome extension." />
+  <style>
+    :root {
+      --bg: #f2fbfb;
+      --card: #ffffff;
+      --ink: #0d2626;
+      --muted: #3d6060;
+      --line: #c4e8e8;
+      --brand: #0abfbc;
+      --brand-2: #089a98;
+      --radius: 18px;
+      --shadow: 0 18px 40px rgba(10, 80, 80, 0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(860px 300px at -120px -60px, #b3f0ef 0%, transparent 65%),
+        radial-gradient(620px 300px at 110% 0%, #ffe2b8 0%, transparent 64%),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Poppins", "Space Grotesk", "Trebuchet MS", sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { width: min(940px, 92vw); margin: 40px auto 56px; }
+    .top {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #fff;
+      font-family: inherit;
+      transition: background .15s;
+    }
+    .btn:hover { background: #e8f9f9; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 36px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-2);
+      background: #ddf5f5;
+      border: 1px solid #9de5e3;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .release-date {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 24px;
+    }
+    h2 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h2 .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 3px 9px;
+    }
+    h2 .tag-added   { background: #d4f7e7; color: #0a6640; border: 1px solid #9de8c5; }
+    h2 .tag-changed { background: #fef3c7; color: #78400a; border: 1px solid #fcd97a; }
+    h2 .tag-fixed   { background: #fee2e2; color: #7f1d1d; border: 1px solid #fca5a5; }
+    h2 .tag-notes   { background: #e0f2fe; color: #0c4a6e; border: 1px solid #7dd3fc; }
+    p, li { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.65; }
+    ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+    a { color: var(--brand-2); }
+    code {
+      font-family: "Consolas", "Courier New", monospace;
+      background: #ddf5f5;
+      border: 1px solid #b3e8e7;
+      padding: 1px 5px;
+      border-radius: 6px;
+      color: #066665;
+      font-size: 0.92em;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 32px 0;
+    }
+    @media (max-width: 620px) {
+      .card { padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top">
+      <a class="btn" href="./index.html">← Back to Home</a>
+    </div>
+    <section class="card">
+      <span class="badge">Release Notes</span>
+
+      <!-- v1.0.0 -->
+      <h1>Version 1.0.0</h1>
+      <p class="release-date">Released April 2026 · Initial release</p>
+
+      <h2><span class="tag tag-added">Added</span></h2>
+      <ul>
+        <li>Volume boost from 0% to 600% using the Web Audio API <code>GainNode</code> — works on any website with audio or video.</li>
+        <li>Lightweight toolbar popup with a large volume slider, percentage display, and real-time dB meter.</li>
+        <li>Persistent Chrome side panel with full advanced controls accessible while browsing.</li>
+        <li>3-band parametric equalizer: Bass (250 Hz), Mid (1 kHz), and Treble (4 kHz) with ±12 dB range per band.</li>
+        <li>6 instant EQ preset chips: Bass Boost, Vocal Clarity, Loudness, Podcast, Music, Flat.</li>
+        <li>Real-time dB meter — color-coded bar with numeric dB readout, updated 10× per second via <code>AnalyserNode</code>.</li>
+        <li>Named preset system — save, load, and delete custom volume + EQ configurations with user-defined names.</li>
+        <li>Per-site settings — AudioMax remembers volume and EQ preferences per domain and applies them automatically on return visits.</li>
+        <li>Anti-clipping compressor — built-in <code>DynamicsCompressorNode</code> reduces distortion at high boost levels.</li>
+        <li>Settings sync across devices using <code>chrome.storage.sync</code>.</li>
+        <li>Side panel Sites tab showing all domains with saved per-site overrides.</li>
+        <li>AudioMax icon set at 16×16, 48×48, and 128×128 px.</li>
+      </ul>
+
+      <h2><span class="tag tag-notes">Notes</span></h2>
+      <ul>
+        <li>Requires Chrome 114 or later (Side Panel API).</li>
+        <li>Works on all desktop platforms where Chrome is supported: Windows, macOS, Linux.</li>
+        <li>Audio processing runs entirely in the browser — no data leaves your device.</li>
+        <li>A small number of sites with non-standard audio routing may not respond to volume boost; this is a Web Audio API limitation, not an extension bug.</li>
+      </ul>
+
+    </section>
+  </main>
+</body>
+</html>
